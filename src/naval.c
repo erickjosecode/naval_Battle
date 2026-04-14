@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "naval.h"
 
 /*
@@ -38,4 +39,23 @@ void printBoard(char board[TAM][TAM], int language) {
         }
         printf("\n");
     }
+}
+
+/*
+    * Function: placeShips
+    * --------------------
+    * Places 5 random ships on the board.
+    * Each ship is represented by the character 'B'.
+*/
+void placeShips(char board[TAM][TAM]){
+    
+    // We use a single loop to place exactly 5 ships
+    for (int i = 0; i < 5; i++){
+        // Generate a random row and column index (0 to 9)
+        int row = rand() % TAM;
+        int col = rand() % TAM; 
+
+        // Mark the random coordinate with a ship unit
+        board[row][col] = 'B';
+        }
 }
