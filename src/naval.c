@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "naval.h"
 
 /*
@@ -35,7 +36,11 @@ void printBoard(char board[TAM][TAM], int language) {
     for (int i = 0; i < TAM; i++){
         printf("%d ", i); // Line number 
         for (int j = 0; j < TAM; j++) {
-            printf("%c ", board[i][j]); 
+            if (board[i][j] == 'B') {
+                printf("~ "); 
+            } else {
+                printf("%c ", board[i][j]);
+            }
         }
         printf("\n");
     }
@@ -58,4 +63,52 @@ void placeShips(char board[TAM][TAM]){
         // Mark the random coordinate with a ship unit
         board[row][col] = 'B';
         }
+}
+
+/*
+    * Function: fireShot
+    * ------------------
+    * Processes the player´s shot at a specifit coordinate.
+    * 
+    * board: the game board matrix.
+    * row: the target row index.
+    * col: the target column index.
+    * 
+    * returns: 
+    * 1 if a ship was hit ('B' becomes 'X')
+    * 0 if it was water ('~' becomes 'O')
+    * -1 if the coordinate was already targeted
+*/
+int fireShot(char board[TAM][TAM], int row, int col) {
+    
+    // 1. Check if the coordinate was already targeted ('X' or 'O')
+    if (board[row][col] == 'O' || board[row][col] == 'X') {
+        return -1;
+    // 2. Check if the coordinate contains a ship ('B')
+    } else if (board[row][col] == 'B') {
+        board[row][col] == 'X';  
+        return 1;
+    // 3. Otherwise, it´s a miss (water '~')
+    } else {
+        board[row][col] == 'O';
+        return 0;
+    }
+        
+}
+
+/*
+    *
+    *
+    * 
+*/
+bool hit(char board[TAM][TAM], int shoot, int language) {
+    for (int i = 0; i < 5; i++) {
+        if (language == 0) {
+            printf("Atira!\n");
+            scanf("%i", &shoot);
+        } else {
+            printf("Shoot!\n");
+            scanf("%i", &shoot);
+        }
+    }
 }

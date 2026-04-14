@@ -28,6 +28,25 @@ void printBoard(char board[TAM][TAM], int language);
     * 
     * board: the 10x10 matrix where ships will be stored.
 */
-void placeShips (char board[TAM][TAM]);
+void placeShips(char board[TAM][TAM]);
+
+/* 
+    * Function: fireShot
+    * ------------------
+    * Processes the player´s shot at a specifit coordinate.
+    * 
+    * board: the game board matrix
+    * row: the target row index.
+    * col: the target column index.
+*/
+int fireShot(char board[TAM][TAM], int row, int col);
+
+/*
+    * Function: hit
+    * -------------
+    * 
+*/
+bool hit(char board[TAM][TAM], int shoot, int language);
+
 
 #endif
