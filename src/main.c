@@ -7,23 +7,30 @@
 int main() {
 
     char board[TAM][TAM]; // Game board declaration
-    int row, col, shoot;
+    int totalHits = 0;
     int language = 0; // 0 for Portuguese, 1 for English
 
-    printf("\nSelect language / Selecione o idioma: \n");
-    printf("0 - Portuguese (PT-BR)\n");
-    printf("1 - English (EN-US)\n");
+    printf("\n0 - Portuguese (PT-BR) | 1 - English (EN-US): ");
     scanf("%d", &language); // User input for language selection
 
     srand(time(NULL));
     
     initializeBoard(board);
     placeShips(board);
-    printBoard(board, language);
-    hit(board, shoot, language);
-    fireShot(board, row, col);
+    
+    while (totalHits < 5) {
+        system("cls");
+        printBoard(board, language);
+        int result = hit(board, language);
+        if (result == 1){
+            totalHits++;
+        }  
+    }
 
-    printf("\n");
+    system("cls");
+    printBoard(board, language);
+    if (language == 0) printf("\nParabéns! Você afundou todos os navios!\n");
+    else printf("\nCongratulations! You sank all the ships!\n");
     
     return 0;
 }

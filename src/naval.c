@@ -53,16 +53,19 @@ void printBoard(char board[TAM][TAM], int language) {
     * Each ship is represented by the character 'B'.
 */
 void placeShips(char board[TAM][TAM]){
-    
-    // We use a single loop to place exactly 5 ships
-    for (int i = 0; i < 5; i++){
+    int shipsPlaced = 0;
+
+    while (shipsPlaced < 5) {
         // Generate a random row and column index (0 to 9)
         int row = rand() % TAM;
         int col = rand() % TAM; 
 
         // Mark the random coordinate with a ship unit
-        board[row][col] = 'B';
-        }
+        if (board[row][col] == '~'){
+            board[row][col] = 'B';
+            shipsPlaced++;
+        }  
+    } 
 }
 
 /*
@@ -79,21 +82,38 @@ void placeShips(char board[TAM][TAM]){
     * 0 if it was water ('~' becomes 'O')
     * -1 if the coordinate was already targeted
 */
-int fireShot(char board[TAM][TAM], int row, int col) {
+int fireShoot(char board[TAM][TAM], int row, int col, int language) {
     
     // 1. Check if the coordinate was already targeted ('X' or 'O')
     if (board[row][col] == 'O' || board[row][col] == 'X') {
+        if (language == 0) {
+            printf("Já atirou nessa posição!\n");
+        } else {
+            printf("Already shot at this position!\n");
+        system("pause");
         return -1;
+        }
     // 2. Check if the coordinate contains a ship ('B')
     } else if (board[row][col] == 'B') {
-        board[row][col] == 'X';  
+        board[row][col] = 'X'; 
+        if (language == 0){
+            printf("Acertou!\n");
+        } else {
+            printf("Got it right!\n");
+        system("pause");
         return 1;
+        }
     // 3. Otherwise, it´s a miss (water '~')
     } else {
-        board[row][col] == 'O';
+        board[row][col] = 'O';
+        if (language == 0) {
+            printf("Splashh! Água...\n");
+        } else {
+            printf("Splashh! Miss...\n");
+        system("pause");
         return 0;
+        }
     }
-        
 }
 
 /*
@@ -101,14 +121,21 @@ int fireShot(char board[TAM][TAM], int row, int col) {
     *
     * 
 */
-bool hit(char board[TAM][TAM], int shoot, int language) {
-    for (int i = 0; i < 5; i++) {
-        if (language == 0) {
-            printf("Atira!\n");
-            scanf("%i", &shoot);
-        } else {
-            printf("Shoot!\n");
-            scanf("%i", &shoot);
-        }
+int hit(char board[TAM][TAM], int language) {
+    int row, col;
+    if (language == 0) {
+        printf("Digite a linha e coluna (ex: 2 3): ");
+        scanf("%d %d", &row, &col);
+    } else {
+        printf("Enter row and column (ex: 2 3): ");
+        scanf("%d %d", &row, &col);
+    }
+    if (row >= 0 && row < TAM && col >= 0 && col < TAM){
+        return fireShoot(board, row, col, language);
+    } else {
+        if (language == 0) printf("Coordenada inválida!\n");
+        else printf("Coordinate out of bounds!\n");
+        system("pause");
+        return -1;
     }
 }
